@@ -24,14 +24,8 @@ public class Bootstrap implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        System.out.println("date: " + LocalDateTime.now().format(formatter));
-        LocalDateTime start = LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0));
-        System.out.println("start: ");
-        System.out.println(start);
-
         Flight flight1 = Flight.builder()
-                .airline_code("THY").destination_airportcode("SAW").source_airportcode("ANTALYA")
+                .airline_code("THY").destination_airportcode("SAW").source_airportcode("SAW")
                 .flightTime(LocalDateTime.now()).build();
         Flight flight2 = Flight.builder()
                 .airline_code("THY").destination_airportcode("ANK").source_airportcode("IST")
@@ -40,7 +34,7 @@ public class Bootstrap implements CommandLineRunner {
                 .airline_code("THY").destination_airportcode("MALT").source_airportcode("ANK")
                 .flightTime(LocalDateTime.now()).build();
         Flight flight4 = Flight.builder()
-                .airline_code("THY").destination_airportcode("HATAY").source_airportcode("GAZ")
+                .airline_code("PEGASUS").destination_airportcode("SAW").source_airportcode("ECN")
                 .flightTime(LocalDateTime.now()).build();
 
         flightService.createFlight(flight1);
