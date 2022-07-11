@@ -44,15 +44,17 @@ public class FlightService {
         return flightRepository.findByFlightCount(start, end, flight.getAirline_code(), flight.getSource_airportcode(), flight.getDestination_airportcode());
     }
     @Transactional
-    public Flight updateFlight(Flight flight) {
-        Long id = flight.getId();
-        if (this.getFlightCount(flight) >= 3) throw new MaximumFlightCountReached(flight);
-        flightRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id));
+    public Flight updateFlight(Flight flightNew) {
 
-        flight.setId(id);
-
-        return flightRepository.save(flight);
+        Flight flightOld = flightRepository.findById(flightNew.getId())
+                .orElseThrow(() -> new ResourceNotFoundException(flightNew.getId()));
+        if (!(this.getFlightCount(flightOld) >=3)) { //if the flight to update not one of the maximum ones we have to check if -by updating that- we can break the rule
+            if (this.getFlightCount(flightNew) >= 3) {
+                throw new MaximumFlightCountReached(flightNew);
+            }
+            return flightRepository.save(flightNew);
+        }
+        return flightRepository.save(flightNew);
     }
 
     public void deleteFlight(Long id) {

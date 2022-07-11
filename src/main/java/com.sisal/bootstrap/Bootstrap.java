@@ -24,8 +24,10 @@ public class Bootstrap implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+
+
         Flight flight1 = Flight.builder()
-                .airline_code("THY").destination_airportcode("SAW").source_airportcode("SAW")
+                .airline_code("THY").destination_airportcode("SAW").source_airportcode("IST")
                 .flightTime(LocalDateTime.now()).build();
         Flight flight2 = Flight.builder()
                 .airline_code("THY").destination_airportcode("ANK").source_airportcode("IST")
