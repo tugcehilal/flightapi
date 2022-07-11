@@ -5,6 +5,8 @@ import com.sisal.model.Flight;
 import com.sisal.repository.FlightRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -15,9 +17,8 @@ public class FlightService {
 
     private final FlightRepository flightRepository;
 
+    @Transactional
     public Flight createFlight(Flight flight) {
-
-
         if (this.getFlightCount(flight) >= 3) throw new MaximumFlightCountReached(flight);
         return flightRepository.save(flight);
     }
@@ -42,7 +43,7 @@ public class FlightService {
         System.out.println("end formatted" + end.format(formatter));*/
         return flightRepository.findByFlightCount(start, end, flight.getAirline_code(), flight.getSource_airportcode(), flight.getDestination_airportcode());
     }
-
+    @Transactional
     public Flight updateFlight(Flight flight) {
         Long id = flight.getId();
         if (this.getFlightCount(flight) >= 3) throw new MaximumFlightCountReached(flight);

@@ -10,7 +10,7 @@ public class MaximumFlightCountReached extends RuntimeException {
 
     public MaximumFlightCountReached(Flight flight) {
 
-        super("The maximum number of flights(3) between " + flight.getSource_airportcode() + " and  " + flight.getDestination_airportcode() + "of the airway " + flight.getAirline_code() + " on " + flight.getFlightTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        super("The maximum number of flights(3) between " + flight.getSource_airportcode() + " and  " + flight.getDestination_airportcode() + " of the airway " + flight.getAirline_code() + " on " + flight.getFlightTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
     }
     public MaximumFlightCountReached(String message) {
         super(message);
