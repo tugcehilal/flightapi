@@ -1,15 +1,17 @@
 # flightapi
 
-It is suggestd to run the application on Intellij IDE. Flight API implementation with Rest Service. 
+It is suggested to run the application on Intellij IDEA. Flight API implementation with Rest Service. 
 
-Used Tools and Tecnologies
-Java 8
-Spring Boot
-Maven
-Git
-JPA
-Hibernate
-H2 Database
-Bootstrap 4
-Project Lombok
-Swagger
+## Used Tools and Technologies
+- Java
+- Spring Boot
+- Maven
+- Git
+- JPA
+- Hibernate
+- H2 Database
+- Project Lombok
+- Swagger
+
+## SwaggerUI
+[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)

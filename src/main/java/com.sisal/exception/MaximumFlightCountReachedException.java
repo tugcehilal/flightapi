@@ -6,13 +6,13 @@ import java.time.format.DateTimeFormatter;
 
 
 @ResponseStatus(HttpStatus.PRECONDITION_FAILED)
-public class MaximumFlightCountReached extends RuntimeException {
+public class MaximumFlightCountReachedException extends RuntimeException {
 
-    public MaximumFlightCountReached(Flight flight) {
+    public MaximumFlightCountReachedException(Flight flight) {
 
         super("The maximum number of flights(3) between " + flight.getSource_airportcode() + " and  " + flight.getDestination_airportcode() + " of the airway " + flight.getAirline_code() + " on " + flight.getFlightTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
     }
-    public MaximumFlightCountReached(String message) {
+    public MaximumFlightCountReachedException(String message) {
         super(message);
     }
 }

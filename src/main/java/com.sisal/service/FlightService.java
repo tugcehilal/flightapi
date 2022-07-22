@@ -1,5 +1,5 @@
 package com.sisal.service;
-import com.sisal.exception.MaximumFlightCountReached;
+import com.sisal.exception.MaximumFlightCountReachedException;
 import com.sisal.exception.ResourceNotFoundException;
 import com.sisal.model.Flight;
 import com.sisal.repository.FlightRepository;
@@ -19,7 +19,7 @@ public class FlightService {
 
     @Transactional
     public Flight createFlight(Flight flight) {
-        if (this.getFlightCount(flight) >= 3) throw new MaximumFlightCountReached(flight);
+        if (this.getFlightCount(flight) >= 3) throw new MaximumFlightCountReachedException(flight);
         return flightRepository.save(flight);
     }
 
@@ -50,7 +50,7 @@ public class FlightService {
                 .orElseThrow(() -> new ResourceNotFoundException(flightNew.getId()));
         if (!(this.getFlightCount(flightOld) >=3)) { //if the flight to update not one of the maximum ones we have to check if -by updating that- we can break the rule
             if (this.getFlightCount(flightNew) >= 3) {
-                throw new MaximumFlightCountReached(flightNew);
+                throw new MaximumFlightCountReachedException(flightNew);
             }
             return flightRepository.save(flightNew);
         }

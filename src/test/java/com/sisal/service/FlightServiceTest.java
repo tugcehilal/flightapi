@@ -1,19 +1,16 @@
 package com.sisal.service;
 
-import com.sisal.exception.MaximumFlightCountReached;
+import com.sisal.exception.MaximumFlightCountReachedException;
 import com.sisal.exception.ResourceNotFoundException;
 import com.sisal.model.Flight;
 import com.sisal.repository.FlightRepository;
-import com.sisal.service.FlightService;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -189,7 +186,7 @@ class FlightServiceTest {
         when(flightService.getFlightCount(flight1)).thenReturn(3);
 
         RuntimeException thrown = assertThrows(
-                MaximumFlightCountReached.class,
+                MaximumFlightCountReachedException.class,
                 () -> flightService.createFlight(flight1)
         );
 
@@ -356,6 +353,30 @@ class FlightServiceTest {
         assertThat(actual.getAirline_code(), equalTo(flightUpdated.getAirline_code()));
 
 
+    }
+
+    @Test
+    void shouldThrowMaximumFlightCountReachedExceptionWhenUpdate() {
+        Flight flight = Flight.builder().id(1L).flightTime(LocalDateTime.parse("2022-07-09T12:10:56.770"))
+                .airline_code("THY")
+                .source_airportcode("IST")
+                .destination_airportcode("ADB").build();
+
+        Flight flightToUpdate = Flight.builder().id(1L).flightTime(LocalDateTime.parse("2022-07-09T12:10:56.770"))
+                .airline_code("THY")
+                .source_airportcode("IST")
+                .destination_airportcode("LHR").build();
+
+        when(flightRepository.findById(1L)).thenReturn(Optional.of(flight));
+        when(flightService.getFlightCount(flight)).thenReturn(1);
+        when(flightService.getFlightCount(flightToUpdate)).thenReturn(4);
+
+        RuntimeException thrown = assertThrows(
+                MaximumFlightCountReachedException.class,
+                () -> flightService.updateFlight(flightToUpdate)
+        );
+
+        assertTrue(thrown.getMessage().contains("The maximum number of"));
     }
 
     @Test
